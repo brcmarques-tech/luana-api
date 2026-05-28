@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: luana-api
+    env: node
+    plan: free
+    buildCommand: yarn install && yarn build
+    startCommand: yarn start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: luana-db
+          property: connectionString
+      - key: ADMIN_SECRET
+        generateValue: true
+      - key: ACCESS_DAYS
+        value: "7"
+      - key: NODE_ENV
+        value: production
+
+databases:
+  - name: luana-db
+    plan: free
+    databaseName: luana_db
