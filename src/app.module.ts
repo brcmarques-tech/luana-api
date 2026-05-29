@@ -5,6 +5,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { SessionModule } from './session/session.module';
 import { AssetsModule } from './assets/assets.module';
+import { ConstellationModule } from './constellation/constellation.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AssetsModule } from './assets/assets.module';
 
     SessionModule,
     AssetsModule,
+    ConstellationModule,
   ],
 })
 export class AppModule {}
