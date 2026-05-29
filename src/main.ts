@@ -6,6 +6,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
+      'https://luana-1-ano.onrender.com',
       'https://luana.bcmtech.com.br',
       'http://localhost:8081',
       'http://localhost:3000',
