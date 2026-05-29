@@ -36,7 +36,9 @@ export class SessionService {
     await this.repo.save(session);
 
     const accessMs = this.accessDays * 24 * 60 * 60 * 1000;
-    const elapsed = now.getTime() - session.firstAccess.getTime();
+    // prazo fixo: começa no dia 17/06/2026, independente de quando ela abriu
+    const accessStart = new Date('2026-06-17T00:00:00-03:00').getTime();
+    const elapsed = now.getTime() - accessStart;
     const hasAccess = elapsed < accessMs;
     const daysRemaining = Math.max(0, Math.ceil((accessMs - elapsed) / 86400000));
     const nextUnlock = new Date('2027-06-17T00:00:00-03:00').getTime();
@@ -49,6 +51,9 @@ export class SessionService {
       xp: session.xp,
       level: session.level,
       achievements: session.achievements,
+      eggsFound: session.eggsFound,
+      petsKilled: session.petsKilled,
+      cardSeen: session.cardSeen,
     };
   }
 
@@ -59,6 +64,9 @@ export class SessionService {
     if (dto.xp !== undefined) session.xp = dto.xp;
     if (dto.level !== undefined) session.level = dto.level;
     if (dto.achievements !== undefined) session.achievements = dto.achievements;
+    if (dto.eggsFound !== undefined) session.eggsFound = dto.eggsFound;
+    if (dto.petsKilled !== undefined) session.petsKilled = dto.petsKilled;
+    if (dto.cardSeen !== undefined) session.cardSeen = dto.cardSeen;
 
     await this.repo.save(session);
     return { ok: true };

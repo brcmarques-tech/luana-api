@@ -55,6 +55,13 @@ export class AssetsController {
     return { ok: true, path: `/assets/${type}/${file.filename}` };
   }
 
+  // verifica credenciais admin
+  @Get('ping')
+  @UseGuards(AdminGuard)
+  ping() {
+    return { ok: true };
+  }
+
   // lista arquivos disponíveis (admin)
   @Get('list/:type')
   @UseGuards(AdminGuard)

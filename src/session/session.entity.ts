@@ -28,6 +28,15 @@ export class Session {
   @Column({ type: 'jsonb', default: [] })
   achievements: string[];
 
+  @Column({ name: 'eggs_found', type: 'jsonb', default: [] })
+  eggsFound: string[];
+
+  @Column({ name: 'pets_killed', type: 'jsonb', default: [] })
+  petsKilled: string[];
+
+  @Column({ name: 'card_seen', default: false })
+  cardSeen: boolean;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 }
