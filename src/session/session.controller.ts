@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { AdminGuard } from '../guards/admin.guard';
 import { UpdateProgressDto } from './dto/update-progress.dto';
 import { SessionService } from './session.service';
@@ -24,5 +24,11 @@ export class SessionController {
   @Put(':token/progress')
   updateProgress(@Param('token') token: string, @Body() dto: UpdateProgressDto) {
     return this.service.updateProgress(token, dto);
+  }
+
+  // cliente: reseta progresso (hardreset)
+  @Delete(':token/progress')
+  resetProgress(@Param('token') token: string) {
+    return this.service.resetProgress(token);
   }
 }

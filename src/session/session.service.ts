@@ -57,6 +57,19 @@ export class SessionService {
     };
   }
 
+  async resetProgress(token: string) {
+    const session = await this.repo.findOne({ where: { token } });
+    if (!session) throw new NotFoundException('Sessão não encontrada');
+    session.xp = 0;
+    session.level = 1;
+    session.achievements = [];
+    session.eggsFound = [];
+    session.petsKilled = [];
+    session.cardSeen = false;
+    await this.repo.save(session);
+    return { ok: true };
+  }
+
   async updateProgress(token: string, dto: UpdateProgressDto) {
     const session = await this.repo.findOne({ where: { token } });
     if (!session) throw new NotFoundException('Sessão não encontrada');
