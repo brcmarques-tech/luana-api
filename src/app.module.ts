@@ -6,6 +6,7 @@ import { join } from 'path';
 import { SessionModule } from './session/session.module';
 import { AssetsModule } from './assets/assets.module';
 import { ConstellationModule } from './constellation/constellation.module';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ConstellationModule } from './constellation/constellation.module';
     SessionModule,
     AssetsModule,
     ConstellationModule,
+    ContentModule,
   ],
 })
 export class AppModule {}

@@ -8,10 +8,13 @@ async function bootstrap() {
     origin: [
       'https://luana-1-ano.onrender.com',
       'https://luana.bcmtech.com.br',
+      'http://localhost:8080',
+      'http://127.0.0.1:8080',
       'http://localhost:8081',
+      'http://localhost:8090',
       'http://localhost:3000',
     ],
-    methods: ['GET', 'POST', 'PUT'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
   });
 
   const port = process.env.PORT ?? 3003;
