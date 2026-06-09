@@ -1,10 +1,18 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ConstellationService } from './constellation.service';
 import { SaveAnswerDto } from './dto/save-answer.dto';
+import { AdminGuard } from '../guards/admin.guard';
 
 @Controller('constellation')
 export class ConstellationController {
   constructor(private readonly service: ConstellationService) {}
+
+  // admin: todas as respostas de todas as sessões
+  @Get('admin/all')
+  @UseGuards(AdminGuard)
+  getAllAnswers() {
+    return this.service.getAllAnswers();
+  }
 
   // cliente: lê estado (respostas, dia atual, se pode responder, etc.)
   @Get(':token')

@@ -28,6 +28,21 @@ export class ConstellationService {
     return Math.min(TOTAL_DAYS, Math.max(1, Math.floor(diff / DAY_MS) + 1));
   }
 
+  async getAllAnswers() {
+    const answers = await this.answersRepo.find({ order: { sessionToken: 'ASC', day: 'ASC' } });
+    const grouped: Record<string, any[]> = {};
+    for (const a of answers) {
+      if (!grouped[a.sessionToken]) grouped[a.sessionToken] = [];
+      grouped[a.sessionToken].push({
+        day: a.day,
+        optionId: a.optionId,
+        text: a.text,
+        answeredAt: a.createdAt,
+      });
+    }
+    return grouped;
+  }
+
   async getState(token: string) {
     const session = await this.sessionsRepo.findOne({ where: { token } });
     if (!session) throw new NotFoundException('Sessão não encontrada');
