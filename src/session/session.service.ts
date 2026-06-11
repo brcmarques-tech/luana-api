@@ -13,7 +13,7 @@ export class SessionService {
     @InjectRepository(Session)
     private readonly repo: Repository<Session>,
   ) {
-    this.accessDays = parseInt(process.env.ACCESS_DAYS ?? '7', 10);
+    this.accessDays = parseInt(process.env.ACCESS_DAYS ?? '15', 10);
   }
 
   async create(year = 1): Promise<{ token: string }> {
@@ -36,12 +36,12 @@ export class SessionService {
     await this.repo.save(session);
 
     const accessMs = this.accessDays * 24 * 60 * 60 * 1000;
-    // prazo fixo: começa no dia 17/06/2026, independente de quando ela abriu
-    const accessStart = new Date('2026-06-17T00:00:00-03:00').getTime();
+    // prazo conta a partir do primeiro acesso da sessão (reinicia se houver hardreset)
+    const accessStart = session.firstAccess.getTime();
     const elapsed = now.getTime() - accessStart;
     const hasAccess = elapsed < accessMs;
     const daysRemaining = Math.max(0, Math.ceil((accessMs - elapsed) / 86400000));
-    const nextUnlock = new Date('2027-06-17T00:00:00-03:00').getTime();
+    const nextUnlock = accessStart + accessMs;
 
     return {
       hasAccess,
@@ -66,6 +66,9 @@ export class SessionService {
     session.eggsFound = [];
     session.petsKilled = [];
     session.cardSeen = false;
+    // hardreset reinicia também o cronômetro de acesso
+    session.firstAccess = null;
+    session.lastAccess = null;
     await this.repo.save(session);
     return { ok: true };
   }
